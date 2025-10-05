@@ -22,8 +22,9 @@
 - `components/` 业务组件（非 UI 原子）
   - `Section.tsx` 页面分区容器（模块化视觉分隔）
   - `Hero.tsx`、`QuickFilterNav.tsx`、`SentenceList.tsx`、`CardWall.tsx` 等
+  - `CategoryContent.tsx` 分类页客户端封装（Hero + Wishes + Generator）
   - `CardGenerator.tsx`（组合）与 `CardCanvas.tsx`（Canvas 渲染）
-  - `GeneratorSheet.tsx`（Radix Sheet 抽屉生成器）
+  - `GeneratorSheet.tsx`（Radix Dialog 弹窗生成器）
 - `app/components/ui/*` shadcn/ui 生成的 UI 原子
 - `data/categories/*` 内容数据（按语言/分类）
 - `lib/` 类型、主题与数据聚合
@@ -50,6 +51,8 @@
   - 内容区避免与外层重复边框，卡片统一圆角/阴影层级
 - 主题与字体：默认使用 Inter（sans）+ Playfair Display（serif），见 `app/layout.tsx`
 - 可用性：按钮与交互优先使用 shadcn/ui + Radix，减少自实现可访问性逻辑
+- Heading 规则：**每个页面必须至少包含一组 H1/H2/H3**，并保持层级递进（示例：页面主标题 `<h1>`、区块标题 `<h2>`、列表内分组 `<h3>`）。复用 `Section` + `SentenceList (h3)` 可快速满足要求。
+- 导航：顶部 `SiteNav` 提供全站入口，分类与卡片页需包含 `Breadcrumbs` 便于返回首页。
 
 ## 内容模型与新增页面
 1) 在 `data/categories/<lang>/<slug>.ts` 新增分类文件，导出 `CategoryData`：
@@ -64,6 +67,7 @@
 - 图片卡：卡片详情页注入 `ImageObject` JSON‑LD
 - hreflang：`next.config.mjs` 已配置 `en-IN`/`hi-IN`；新增语言需补充页面与交叉链接
 - OG：后续可引入 SSR 动态 OG 图（推荐）
+- 站点图标与 Robots：`public/favicon.ico` / `favicon.svg` 已设置；全站默认输出 `<meta name="robots" content="index,follow">` 与 `X-Robots-Tag: index, follow`
 
 ## 图卡生成与下载
 - 生成器：使用 `GeneratorSheet`（Radix Sheet）+ `CardGenerator`（Canvas）
