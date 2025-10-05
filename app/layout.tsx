@@ -16,13 +16,21 @@ export const metadata: Metadata = {
   applicationName: 'Anniversary Wishes',
   keywords: ['anniversary wishes', 'anniversary captions', 'card maker', 'wishes for husband', 'hindi anniversary wishes'],
   icons: {
-    icon: '/favicon.ico'
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.svg', type: 'image/svg+xml' }
+    ]
   },
   alternates: {
     languages: {
       'en-IN': '/',
       'hi-IN': '/hi'
     }
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false
   },
   openGraph: {
     type: 'website',

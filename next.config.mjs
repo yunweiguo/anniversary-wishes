@@ -19,7 +19,8 @@ const nextConfig = {
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           { key: 'Permissions-Policy', value: 'interest-cohort=()' },
-          { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' }
+          { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
+          { key: 'X-Robots-Tag', value: 'index, follow' }
         ]
       }
     ]
@@ -27,4 +28,3 @@ const nextConfig = {
 }
 
 export default nextConfig
-
