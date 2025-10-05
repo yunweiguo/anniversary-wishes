@@ -4,7 +4,8 @@ import CardGenerator from '@/components/CardGenerator'
 
 export const metadata: Metadata = {
   title: 'Anniversary Card Maker',
-  description: 'Turn any wish into a beautiful share-ready image card (1080×1080 / 1080×1920).'
+  description: 'Turn any wish into a beautiful share-ready image card (1080×1080 / 1080×1920).',
+  alternates: { canonical: '/anniversary-card-maker' }
 }
 
 export default function Page({ searchParams }: { searchParams: { id?: string; text?: string } }) {
