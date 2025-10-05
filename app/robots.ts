@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-  const host = 'https://example.com'
+  const host = 'https://wishwala.info'
   return {
     rules: {
       userAgent: '*',
@@ -11,4 +11,3 @@ export default function robots(): MetadataRoute.Robots {
     host,
   }
 }
-

@@ -8,6 +8,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-serif' })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://wishwala.info'),
   title: {
     default: 'Anniversary Wishes — Cards & Captions',
     template: '%s | Anniversary Wishes'
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
     type: 'website',
     title: 'Anniversary Wishes — Cards & Captions',
     description: 'Curated wishes, captions, and instant cards to copy, download, and share.',
-    url: 'https://example.com/',
+    url: 'https://wishwala.info/',
     siteName: 'Anniversary Wishes'
   },
   twitter: {

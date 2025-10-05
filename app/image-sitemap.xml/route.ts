@@ -4,7 +4,7 @@ import { CATEGORIES } from '@/lib/data'
 export const revalidate = 86400 // 1 day
 
 export async function GET() {
-  const base = 'https://example.com'
+  const base = 'https://wishwala.info'
   const items = Object.values(CATEGORIES).flatMap((c) => c.groups.flatMap((g) => g.items))
 
   const urls = items
@@ -33,4 +33,3 @@ ${urls}
 function escapeXml(s: string) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }
-

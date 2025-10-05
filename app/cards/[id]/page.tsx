@@ -9,8 +9,8 @@ type Props = { params: { id: string } }
 export function generateMetadata({ params }: Props): Metadata {
   const found = findItemById(params.id)
   const text = found?.item.text || 'Anniversary card'
-  const url = `https://example.com/cards/${params.id}`
-  const ogUrl = `https://example.com/og/${params.id}.png`
+  const url = `https://wishwala.info/cards/${params.id}`
+  const ogUrl = `https://wishwala.info/og/${params.id}.png`
   return {
     title: `Card: ${text.slice(0, 60)}`,
     description: text,
@@ -41,8 +41,8 @@ export default function Page({ params }: Props) {
     name: found.item.text.slice(0, 80),
     caption: found.item.text,
     representativeOfPage: true,
-    url: `https://example.com/cards/${params.id}`,
-    contentUrl: `https://example.com/og/${params.id}.png`,
+    url: `https://wishwala.info/cards/${params.id}`,
+    contentUrl: `https://wishwala.info/og/${params.id}.png`,
     width: 1200,
     height: 630
   }
