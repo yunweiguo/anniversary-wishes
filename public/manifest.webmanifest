@@ -1,0 +1,10 @@
+{
+  "name": "Anniversary Wishes",
+  "short_name": "Wishes",
+  "start_url": "/anniversary-wishes",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#e25a7a",
+  "icons": []
+}
+
