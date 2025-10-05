@@ -45,12 +45,13 @@ export default function GeneratorSheet({
     const url = typeof window !== 'undefined' ? window.location.href : ''
     const shareUrl = url.includes('/cards/') ? url : `/anniversary-card-maker?text=${encodeURIComponent(rendered)}`
     try {
-      if (navigator.share) {
+      const canShare = typeof navigator !== 'undefined' && typeof navigator.share === 'function'
+      if (canShare) {
         await navigator.share({ title: 'Anniversary Card', text: rendered, url: shareUrl })
       } else {
         await navigator.clipboard.writeText(shareUrl)
       }
-      track('share_click', { channel: navigator.share ? 'native-share' : 'copy-link' })
+      track('share_click', { channel: canShare ? 'native-share' : 'copy-link' })
     } catch {}
   }
 
