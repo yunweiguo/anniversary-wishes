@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Inter, Playfair_Display } from 'next/font/google'
+import Script from 'next/script'
 import SiteNav from '@/components/SiteNav'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
@@ -48,9 +49,23 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const isProd = process.env.NODE_ENV === 'production'
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="min-h-screen bg-[radial-gradient(1200px_600px_at_80%_-10%,#fce7f3_0%,rgba(255,255,255,0)_60%),radial-gradient(1000px_500px_at_-10%_110%,#e0e7ff_0%,rgba(255,255,255,0)_60%)] text-slate-900">
+        {isProd && (
+          <>
+            <Script async src="https://www.googletagmanager.com/gtag/js?id=G-BLE9D1HE3P" />
+            <Script id="gtag-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-BLE9D1HE3P');
+              `}
+            </Script>
+          </>
+        )}
         <header className="sticky top-0 z-40 border-b bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/50">
           <div className="container flex h-14 items-center justify-between">
             <Link href="/" className="font-serif text-lg font-semibold tracking-tight">Anniversary Wishes</Link>
