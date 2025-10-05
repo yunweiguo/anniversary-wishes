@@ -10,6 +10,7 @@ const DIMENSIONS: Record<CardSize, { w: number; h: number }> = {
 
 export default function CardCanvas({ text, themeId, size }: { text: string; themeId: string; size: CardSize }) {
   const ref = useRef<HTMLCanvasElement | null>(null)
+  const markText = process.env.NEXT_PUBLIC_CARD_FOOTER ?? 'wishwala.info'
 
   useEffect(() => {
     const canvas = ref.current!
@@ -56,11 +57,11 @@ export default function CardCanvas({ text, themeId, size }: { text: string; them
     // Footer mark
     ctx.globalAlpha = 0.6
     ctx.font = `500 ${Math.floor(bodyFontSize * 0.55)}px ${theme.fonts.body}, system-ui`
-    const mark = 'anniversarywishes.example'
+    const mark = markText
     const metrics = ctx.measureText(mark)
     ctx.fillText(mark, w - metrics.width - margin, h - margin - Math.floor(bodyFontSize * 0.2))
     ctx.globalAlpha = 1
-  }, [text, themeId, size])
+  }, [text, themeId, size, markText])
 
   return <canvas ref={ref} className="w-full rounded border shadow-sm" />
 }
@@ -82,4 +83,3 @@ function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number)
   if (line) lines.push(line)
   return lines
 }
-
