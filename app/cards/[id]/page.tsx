@@ -50,9 +50,16 @@ export default function Page({ params }: Props) {
   return (
     <div className="space-y-4">
       <Breadcrumbs trail={[{ href: '/', label: 'Home' }, { href: `/${found.category.slug}`, label: found.category.title }, { href: `/cards/${params.id}`, label: 'Card' }]} />
-      <h1 className="text-2xl font-semibold tracking-tight">Card</h1>
-      <p className="text-slate-600">From: {found.category.title}</p>
-      <CardGenerator text={found.item.text} itemId={found.item.id} page={found.category.slug} />
+      <h1 className="text-3xl font-semibold tracking-tight">Card</h1>
+      <section className="space-y-2">
+        <h2 className="text-xl font-semibold tracking-tight">Message preview</h2>
+        <h3 className="text-sm font-semibold uppercase text-slate-500">Source wish</h3>
+        <p className="text-slate-600">{found.item.text}</p>
+      </section>
+      <section className="space-y-2">
+        <h2 className="text-xl font-semibold tracking-tight">Generate or download</h2>
+        <CardGenerator text={found.item.text} itemId={found.item.id} page={found.category.slug} />
+      </section>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(imageLd) }} />
     </div>
   )

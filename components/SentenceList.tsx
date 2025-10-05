@@ -10,7 +10,7 @@ export default function SentenceList({ data, onGenerate }: { data: CategoryData;
     <div className="space-y-8">
       {data.groups.map((g) => (
         <section key={g.label}>
-          <h2 className="mb-3 text-xl font-semibold tracking-tight">{g.label}</h2>
+          <h3 className="mb-3 text-lg font-semibold tracking-tight">{g.label}</h3>
           <ul className="space-y-3">
             {g.items.map((it) => (
               <li key={it.id} className="rounded-md border p-4">

@@ -13,6 +13,7 @@ export default function Page() {
   const cats = ALL_CATEGORY_SLUGS.map((s) => CATEGORIES[s])
   return (
     <div className="space-y-10">
+      <h1 className="text-3xl font-semibold tracking-tight">Anniversary Wishes</h1>
       <Section title="Anniversary Wishes Overview" description="Browse categories by relationship, tone, language, and milestones. Start with a category, then copy or generate a shareable image card.">
         <QuickFilterNav bare />
       </Section>
