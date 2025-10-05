@@ -1,11 +1,11 @@
 "use client"
-import type { CategoryData } from '@/lib/types'
+import type { CategoryData, WishItem } from '@/lib/types'
 import CopyButton from './CopyButton'
 import Link from 'next/link'
 import { Button } from '@/app/components/ui/button'
 import { track } from '@/lib/analytics'
 
-export default function SentenceList({ data, onGenerate }: { data: CategoryData; onGenerate?: (text: string, id: string, page: string) => void }) {
+export default function SentenceList({ data, onGenerate }: { data: CategoryData; onGenerate?: (item: WishItem) => void }) {
   return (
     <div className="space-y-8">
       {data.groups.map((g) => (
@@ -21,7 +21,7 @@ export default function SentenceList({ data, onGenerate }: { data: CategoryData;
                     <Button
                       variant="outline"
                       onClick={() => {
-                        onGenerate(it.text, it.id, data.slug)
+                        onGenerate(it)
                         track('generate_card_open', { page: data.slug, item_id: it.id })
                       }}
                     >

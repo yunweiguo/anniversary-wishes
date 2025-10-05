@@ -9,11 +9,21 @@ import EATSection from '@/components/EATSection'
 import GeneratorSheet from '@/components/GeneratorSheet'
 import Section from '@/components/Section'
 import { useState } from 'react'
-import type { CategoryData } from '@/lib/types'
+import type { CategoryData, WishItem } from '@/lib/types'
 
 export default function LandingContent({ heroCat, cats }: { heroCat: CategoryData; cats: CategoryData[] }) {
+  const defaultItem: WishItem | undefined = heroCat?.groups?.[0]?.items?.[0]
+  const defaultText = defaultItem?.text || 'To my {relation}, here’s to another year of us. Happy {nth} Anniversary!'
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const [drawerText, setDrawerText] = useState(heroCat.groups[0].items[0].text)
+  const [drawerText, setDrawerText] = useState(defaultText)
+  const [drawerVars, setDrawerVars] = useState(defaultItem?.vars || [])
+
+  const openWithItem = (item?: WishItem) => {
+    const text = item?.text || defaultText
+    setDrawerText(text)
+    setDrawerVars(item?.vars || [])
+    setDrawerOpen(true)
+  }
 
   return (
     <div className="space-y-10">
@@ -22,7 +32,8 @@ export default function LandingContent({ heroCat, cats }: { heroCat: CategoryDat
         summary="Find the right words fast. Explore by relationship, tone, and language. Generate shareable image cards in one tap."
         featured={heroCat.groups[0].items}
         ctaHref="#"
-        onCtaClick={() => setDrawerOpen(true)}
+        onCtaClick={() => openWithItem(defaultItem)}
+        onSelect={(item) => openWithItem(item)}
       />
 
       <Section title="Quick Filters" description="Jump to popular relationships, tones, and languages.">
@@ -30,7 +41,7 @@ export default function LandingContent({ heroCat, cats }: { heroCat: CategoryDat
       </Section>
 
       <Section title="Popular Wishes" description="Curated lines you can copy, personalize, and turn into images.">
-        <SentenceList data={heroCat} onGenerate={(text) => { setDrawerText(text); setDrawerOpen(true) }} />
+        <SentenceList data={heroCat} onGenerate={(item) => openWithItem(item)} />
       </Section>
 
       <Section title="Image Cards" description="Browse share-ready cards with indexable URLs for search.">
@@ -61,7 +72,7 @@ export default function LandingContent({ heroCat, cats }: { heroCat: CategoryDat
         </ul>
       </Section>
 
-      <GeneratorSheet open={drawerOpen} onOpenChange={setDrawerOpen} initialText={drawerText} />
+      <GeneratorSheet open={drawerOpen} onOpenChange={setDrawerOpen} initialText={drawerText} initialVars={drawerVars} />
     </div>
   )
 }

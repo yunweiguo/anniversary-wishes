@@ -7,13 +7,15 @@ export default function Hero({
   summary,
   featured,
   ctaHref = '/anniversary-card-maker',
-  onCtaClick
+  onCtaClick,
+  onSelect
 }: {
   title: string
   summary: string
   featured: WishItem[]
   ctaHref?: string
   onCtaClick?: () => void
+  onSelect?: (item: WishItem) => void
 }) {
   return (
     <section className="relative mb-8 overflow-hidden rounded-xl border bg-gradient-to-br from-rose-50 to-indigo-50 p-6 shadow-sm">
@@ -24,9 +26,20 @@ export default function Hero({
       <p className="mb-4 max-w-3xl text-slate-700">{summary}</p>
       <div className="grid gap-3 sm:grid-cols-2">
         {featured.slice(0, 4).map((it) => (
-          <blockquote key={it.id} className="rounded-md border bg-white/70 p-3 text-sm text-slate-800 shadow">
-            “{it.text}”
-          </blockquote>
+          onSelect ? (
+            <button
+              key={it.id}
+              type="button"
+              onClick={() => onSelect?.(it)}
+              className="rounded-md border bg-white/70 p-3 text-left text-sm text-slate-800 shadow transition hover:-translate-y-0.5 hover:border-brand hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+            >
+              “{it.text}”
+            </button>
+          ) : (
+            <blockquote key={it.id} className="rounded-md border bg-white/70 p-3 text-sm text-slate-800 shadow">
+              “{it.text}”
+            </blockquote>
+          )
         ))}
       </div>
       <div className="mt-5">

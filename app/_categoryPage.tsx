@@ -1,11 +1,6 @@
 import type { Metadata } from 'next'
-import Hero from '@/components/Hero'
-import SentenceList from '@/components/SentenceList'
-import CardWall from '@/components/CardWall'
-import FAQ from '@/components/FAQ'
-import RelatedNav from '@/components/RelatedNav'
-import Section from '@/components/Section'
 import Breadcrumbs from '@/components/Breadcrumbs'
+import CategoryContent from '@/components/CategoryContent'
 import { getCategory, getRelated } from '@/lib/data'
 
 export function generateCategoryMetadata(slug: string): Metadata {
@@ -28,7 +23,6 @@ export function generateCategoryMetadata(slug: string): Metadata {
 export default function CategoryPage({ slug }: { slug: string }) {
   const data = getCategory(slug)
   if (!data) return <div>Not found</div>
-  const featured = data.groups[0]?.items?.slice(0, 5) || []
   const related = getRelated(slug)
   const itemListLd = {
     '@context': 'https://schema.org',
@@ -43,22 +37,7 @@ export default function CategoryPage({ slug }: { slug: string }) {
   return (
     <div>
       <Breadcrumbs trail={[{ href: '/', label: 'Home' }, { href: `/${slug}`, label: data.title }]} />
-      <Hero title={data.title} summary={data.summary} featured={featured} />
-
-      <Section title="Wishes" description="Copy, personalize, and generate an image card.">
-        <SentenceList data={data} />
-      </Section>
-
-      <Section title="Image Cards" description="Share-ready cards with indexable URLs.">
-        <CardWall data={data} />
-      </Section>
-
-      <Section title="FAQ" description="Short answers for common etiquette and writing tips.">
-        <FAQ data={data} />
-      </Section>
-
-      <RelatedNav related={related} />
-
+      <CategoryContent data={data} related={related} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
     </div>
   )
