@@ -3,6 +3,8 @@ import { useMemo, useState } from 'react'
 import CardCanvas, { type CardSize } from './CardCanvas'
 import ThemePicker from './ThemePicker'
 import { track } from '@/lib/analytics'
+import { Switch } from '@/app/components/ui/switch'
+import { Label } from '@/app/components/ui/label'
 
 export default function CardGenerator({
   text,
@@ -13,6 +15,7 @@ export default function CardGenerator({
 }: { text: string; initialTheme?: string; initialSize?: CardSize; itemId?: string; page?: string }) {
   const [theme, setTheme] = useState(initialTheme)
   const [size, setSize] = useState<CardSize>(initialSize)
+  const [showFooter, setShowFooter] = useState(false)
 
   const filename = useMemo(() => `anniversary-card-${itemId || 'custom'}-${theme}-${size}.png`, [itemId, theme, size])
 
@@ -24,19 +27,25 @@ export default function CardGenerator({
     a.href = url
     a.download = filename
     a.click()
-    track('card_download', { page, item_id: itemId, format: 'png', size })
+    track('card_download', { page, item_id: itemId, format: 'png', size, footer: showFooter ? 'on' : 'off' })
   }
 
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-3">
         <ThemePicker value={theme} onChange={setTheme} />
-        <div className="ml-auto flex gap-2">
-          <SizeButton label="1080×1080" active={size === 'square'} onClick={() => setSize('square')} />
-          <SizeButton label="1080×1920" active={size === 'story'} onClick={() => setSize('story')} />
+        <div className="ml-auto flex items-center gap-4">
+          <div className="flex gap-2">
+            <SizeButton label="1080×1080" active={size === 'square'} onClick={() => setSize('square')} />
+            <SizeButton label="1080×1920" active={size === 'story'} onClick={() => setSize('story')} />
+          </div>
+          <div className="flex items-center gap-2 text-sm">
+            <Switch id="footer-toggle" checked={showFooter} onCheckedChange={setShowFooter} />
+            <Label htmlFor="footer-toggle">Show watermark</Label>
+          </div>
         </div>
       </div>
-      <CardCanvas text={text} themeId={theme} size={size} />
+      <CardCanvas text={text} themeId={theme} size={size} showFooter={showFooter} />
       <div className="flex gap-3">
         <button onClick={download} className="rounded bg-brand px-4 py-2 text-white hover:bg-brand-dark">Download PNG</button>
       </div>
@@ -51,4 +60,3 @@ function SizeButton({ label, active, onClick }: { label: string; active: boolean
     </button>
   )
 }
-

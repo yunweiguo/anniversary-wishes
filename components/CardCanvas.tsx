@@ -8,7 +8,7 @@ const DIMENSIONS: Record<CardSize, { w: number; h: number }> = {
   story: { w: 1080, h: 1920 },
 }
 
-export default function CardCanvas({ text, themeId, size }: { text: string; themeId: string; size: CardSize }) {
+export default function CardCanvas({ text, themeId, size, showFooter = false }: { text: string; themeId: string; size: CardSize; showFooter?: boolean }) {
   const ref = useRef<HTMLCanvasElement | null>(null)
   const markText = process.env.NEXT_PUBLIC_CARD_FOOTER ?? 'wishwala.info'
 
@@ -54,14 +54,15 @@ export default function CardCanvas({ text, themeId, size }: { text: string; them
       y += lineHeight
     }
 
-    // Footer mark
-    ctx.globalAlpha = 0.6
-    ctx.font = `500 ${Math.floor(bodyFontSize * 0.55)}px ${theme.fonts.body}, system-ui`
-    const mark = markText
-    const metrics = ctx.measureText(mark)
-    ctx.fillText(mark, w - metrics.width - margin, h - margin - Math.floor(bodyFontSize * 0.2))
-    ctx.globalAlpha = 1
-  }, [text, themeId, size, markText])
+    if (showFooter) {
+      ctx.globalAlpha = 0.5
+      ctx.font = `500 ${Math.floor(bodyFontSize * 0.55)}px ${theme.fonts.body}, system-ui`
+      const mark = markText
+      const metrics = ctx.measureText(mark)
+      ctx.fillText(mark, w - metrics.width - margin, h - margin - Math.floor(bodyFontSize * 0.2))
+      ctx.globalAlpha = 1
+    }
+  }, [text, themeId, size, markText, showFooter])
 
   return <canvas ref={ref} className="w-full rounded border shadow-sm" />
 }
