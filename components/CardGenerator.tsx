@@ -3,8 +3,6 @@ import { useMemo, useState } from 'react'
 import CardCanvas, { type CardSize } from './CardCanvas'
 import ThemePicker from './ThemePicker'
 import { track } from '@/lib/analytics'
-import { Switch } from '@/app/components/ui/switch'
-import { Label } from '@/app/components/ui/label'
 
 export default function CardGenerator({
   text,
@@ -15,7 +13,8 @@ export default function CardGenerator({
 }: { text: string; initialTheme?: string; initialSize?: CardSize; itemId?: string; page?: string }) {
   const [theme, setTheme] = useState(initialTheme)
   const [size, setSize] = useState<CardSize>(initialSize)
-  const [showFooter, setShowFooter] = useState(false)
+
+  const watermarkEnabled = process.env.NEXT_PUBLIC_CARD_SHOW_WATERMARK === 'true'
 
   const filename = useMemo(() => `anniversary-card-${itemId || 'custom'}-${theme}-${size}.png`, [itemId, theme, size])
 
@@ -27,7 +26,7 @@ export default function CardGenerator({
     a.href = url
     a.download = filename
     a.click()
-    track('card_download', { page, item_id: itemId, format: 'png', size, footer: showFooter ? 'on' : 'off' })
+    track('card_download', { page, item_id: itemId, format: 'png', size, footer: watermarkEnabled ? 'on' : 'off' })
   }
 
   return (
@@ -39,13 +38,9 @@ export default function CardGenerator({
             <SizeButton label="1080×1080" active={size === 'square'} onClick={() => setSize('square')} />
             <SizeButton label="1080×1920" active={size === 'story'} onClick={() => setSize('story')} />
           </div>
-          <div className="flex items-center gap-2 text-sm">
-            <Switch id="footer-toggle" checked={showFooter} onCheckedChange={setShowFooter} />
-            <Label htmlFor="footer-toggle">Show watermark</Label>
-          </div>
         </div>
       </div>
-      <CardCanvas text={text} themeId={theme} size={size} showFooter={showFooter} />
+      <CardCanvas text={text} themeId={theme} size={size} showFooter={watermarkEnabled} />
       <div className="flex gap-3">
         <button onClick={download} className="rounded bg-brand px-4 py-2 text-white hover:bg-brand-dark">Download PNG</button>
       </div>
